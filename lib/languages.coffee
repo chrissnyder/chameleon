@@ -6,3 +6,4 @@ module.exports =
 	"fr": "French"
 	"es": "Spanish"
 	"pl": "Polish"
+	

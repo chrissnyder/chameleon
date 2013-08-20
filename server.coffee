@@ -167,7 +167,6 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
   app.post '/project/:project/language/:language/resolve', (req, res) ->
     { language, project } = req.params
-
     { accept, id, name, value } = req.body
 
     updateQuery = 
