@@ -112,14 +112,21 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
       res.redirect "/project/#{ project }"
       return
 
-    doc =
+    query =
       project: project
-      languages:
-        en: JSON.parse fs.readFileSync(req.files["site-file"].path)
 
-    siteCollection.insert doc, { safe: true }, (err, objects) ->
-      fs.unlink req.files["site-file"].path
-      res.redirect "/project/#{ project }"
+    siteCollection.findOne query, (err, doc) ->
+      if doc
+        doc.languages.en = JSON.parse fs.readFileSync(req.files["site-file"].path)
+      else
+        doc = 
+          project: project
+          languages:
+            en: JSON.parse fs.readFileSync(req.files["site-file"].path)
+
+      siteCollection.findAndModify query, { project: 1 }, doc, { safe: true, upsert: true }, (err, objects) ->
+        fs.unlink req.files["site-file"].path
+        res.redirect "/project/#{ project }"
 
   app.get '/project/:project/language/:language/translate', (req, res) ->
     { language, project } = req.params
@@ -174,7 +181,6 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
     stringsCollection.update updateQuery, updateAction, (err, result) ->
       unless accept is "true"
-        console.log "accept is false"
         res.send 200
       else
         obj = {}
@@ -228,7 +234,9 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
       siteUrl = siteUrl + Projects[project].prefix
 
     jsdom.env siteUrl, (err, window) ->
-      if err then console.log 'jsdom', err; res.send 400; return
+      if err
+        res.send 400
+        return
 
       document = window.document
       # Start fresh each time
