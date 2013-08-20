@@ -1,0 +1,38 @@
+<% extend 'layout.ect' %>
+
+<% block 'javascript': %>
+	<script type="text/javascript" src="/scripts/site.js"></script>
+<% end %>
+
+<% block 'body': %>
+
+<form id="add-site" method="post" action="/project/<%- @project %>" enctype="multipart/form-data">
+	<input type="file" name="site-file" id="site-file">
+	<button type="submit" id="submit">Submit</button>
+</form>
+
+<% if @languages: %>
+	<ul>
+	<% for languageLocale, languageString of @languages: %>
+		<li>
+			<b><%- languageString %></b><br>
+			<a href="/project/<%- @project %>/language/<%- languageLocale %>/translate">Translate</a> |
+			<a href="/project/<%- @project %>/language/<%- languageLocale %>/resolve">Resolve</a><br>
+			<a class="push" data-language="<%- languageLocale %>" href="#">Push</a>
+		</li>
+	<% end %>
+	</ul>
+<% end %>
+
+<form class="generate">
+	<select multiple name="languages">
+		<% for languageLocale, languageString of @languages: %>
+			<option data-name="<%- languageLocale %>" data-value="<%- languageString %>"><%- languageString %></option>
+		<% end %>
+	</select>
+	<button type="submit">Generate Manifest</button>
+</form>
+
+<% end %>
+
+<% end %>

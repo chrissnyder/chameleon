@@ -1,0 +1,24 @@
+<% extend 'layout.ect' %>
+
+<% block 'javascript': %>
+	<script type="text/javascript" src="/scripts/translate.js"></script>
+<% end %>
+
+<% block 'body': %>
+<a href="/project/<%- @project %>/language/<%- @language %>/translate">Translate</a> |
+<a href="/project/<%- @project %>/language/<%- @language %>/resolve">Resolve</a>
+
+<% if @strings: %>
+	<% for key, string of @strings: %>
+	<form>
+		<label><%= string %>
+			<input type="text" name="<%- key %>" value="<%= string %>">
+		</label>
+		<button type="submit">Send</button>
+	</form>
+	<% end %>
+<% end %>
+
+<% end %>
+
+<% end %>

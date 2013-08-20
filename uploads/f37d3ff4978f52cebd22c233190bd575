@@ -1,0 +1,7 @@
+module.exports =
+	testKey: "testString"
+	asdf: "testStrongTwo"
+	objects:
+		first: "First"
+		second: "Second"
+		third: "Third"
