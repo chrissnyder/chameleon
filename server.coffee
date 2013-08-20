@@ -13,7 +13,14 @@ _ = require 'underscore'
 
 # Random bits of setup
 port = process.env.PORT || 3002
-MONGO_URL = "mongodb://localhost:27017/translations"
+
+if process.env.PORT
+  MONGO_URL = "mongodb://#{ process.env.MONGO_USER }:#{ process.env.MONGO_PASSWORD }@dharma.mongohq.com:10075/app16834628"
+  SESSION_SECRET = process.env.SESSION_SECRET
+else
+  MONGO_URL = "mongodb://localhost:27017/translations"
+  SESSION_SECRET = "bacon-cereal-tempest-1266"
+
 ObjectID = mongodb.ObjectID
 { ensureAuthenticated } = require './lib/functions'
 
@@ -41,7 +48,7 @@ app.engine '.ect', ectRenderer.render
 app.use express.static(__dirname + '/public')
 app.use express.bodyParser({uploadDir: __dirname + '/uploads'})
 app.use(express.cookieParser())
-app.use(express.session({secret: 'bacon-cereal-tempest-1266'}))
+app.use(express.session({secret: SESSION_SECRET}))
 app.use passport.initialize()
 app.use passport.session()
 
@@ -215,7 +222,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
     for languageLocale, languageString of Languages
       exportedLanguages[languageLocale] = languageString if languageString in languages
-      
+
     siteUrl = Projects[project].bucket_url
     if Projects[project].prefix
       siteUrl = siteUrl + Projects[project].prefix
