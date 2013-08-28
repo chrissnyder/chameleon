@@ -1,4 +1,8 @@
 module.exports =
-	admin: []
+	admin: [
+		'cs@zooniverse.org'
+	]
 
-	trusted: []
+	trusted: [
+		'bumishness@gmail.com'
+	]
