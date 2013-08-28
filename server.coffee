@@ -9,6 +9,7 @@ GoogleStrategy = require('passport-google').Strategy
 mongodb = require 'mongodb'
 shortId = require 'shortid'
 url = require 'url'
+User = require './models/user'
 _ = require 'underscore'
 
 # Random bits of setup
@@ -22,22 +23,13 @@ else
   SESSION_SECRET = "bacon-cereal-tempest-1266"
 
 ObjectID = mongodb.ObjectID
-{ ensureAuthenticated } = require './lib/functions'
+{ setPermissions, ensureAuthenticated, ensureAdmin, ensureTrusted, isAdmin, isTrusted } = require './lib/functions'
 
 passport.serializeUser (user, done) ->
   done null, user
 
 passport.deserializeUser (obj, done) ->
   done null, obj
-
-passport.use new GoogleStrategy
-  returnURL: "http://localhost:#{ port }/auth/google/return"
-  realm: "http://localhost:#{ port }/"
-  (identifier, profile, done) ->
-    process.nextTick ->
-      profile.identifier = identifier
-      done null, profile
-
 
 app = express()
 ectRenderer = ECT
@@ -51,6 +43,22 @@ app.use(express.cookieParser())
 app.use(express.session({secret: SESSION_SECRET}))
 app.use passport.initialize()
 app.use passport.session()
+
+passport.use new GoogleStrategy
+  returnURL: "http://localhost:#{ port }/auth/google/return"
+  realm: "http://localhost:#{ port }/"
+  (identifier, profile, done) ->
+    process.nextTick ->
+      profile.identifier = identifier
+      user = new User profile
+      app.locals.user = user
+      done null, user
+
+##
+# MIDDLEWARE STACKS
+##
+ensureAuthenticatedStack = [ensureAuthenticated]
+ensureAdminStack = [ensureAuthenticated, ensureAdmin]
 
 
 ###
@@ -94,18 +102,18 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
       res.redirect '/'
   )
 
-  app.get '/', (req, res) ->
+  app.get '/', ensureAuthenticatedStack, (req, res) ->
     res.render 'index.ect', {languages: Languages, projects: Projects}
 
   app.get '/login', (req, res) ->
     res.render 'login.ect'
 
 
-  app.get '/project/:project', (req, res) ->
+  app.get '/project/:project', ensureAuthenticatedStack, (req, res) ->
     { project } = req.params
     res.render 'site.ect', { project: project, languages: Languages }
 
-  app.post '/project/:project', (req, res) ->
+  app.post '/project/:project', ensureAdmin, (req, res) ->
     { project } = req.params
 
     unless req.files["site-file"]
@@ -158,14 +166,14 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
       res.send 200
 
-  app.get '/project/:project/language/:language/resolve', (req, res) ->
+  app.get '/project/:project/language/:language/resolve', ensureTrusted, (req, res) ->
     { language, project } = req.params
 
     stringsCollection.findOne { project, language }, (err, doc) ->
       { strings } = doc || []
       res.render 'resolver.ect', { language, project, strings }
 
-  app.post '/project/:project/language/:language/resolve', (req, res) ->
+  app.post '/project/:project/language/:language/resolve', ensureTrusted, (req, res) ->
     { language, project } = req.params
     { accept, id, name, value } = req.body
 

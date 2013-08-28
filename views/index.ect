@@ -1,5 +1,9 @@
 <% extend 'layout.ect' %>
 	<% block 'body': %>
+    <% if @user: %>
+      <h3>Hello <%- @user.displayName %>!</h3>
+      <p>Your userlevel is <%- @user.userLevel %>.</p>
+    <% end %>
 		<a href="/project/t7e-test">t7e-test</a>
 	<% end %>
 <% end %>
