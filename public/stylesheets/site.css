@@ -1,0 +1,27 @@
+.content-container {
+  clear: both;
+  display: block;
+}
+.language-options {
+  width: 200px;
+  margin: 0px 10px 10px 0px;
+  display: inline-block;
+}
+.language-options h3 {
+  font-size: 16px;
+  padding-bottom: 0;
+  border: none;
+  color: rgba(0,0,0,0.4);
+}
+.language-options ul {
+  display: block;
+  list-style-type: disc;
+  -webkit-margin-before: 3px;
+  -webkit-margin-after: 3px;
+  -webkit-margin-start: 0px;
+  -webkit-margin-end: 0px;
+  -webkit-padding-start: 20px;
+}
+.language-options li {
+  font-size: 14px;
+}
