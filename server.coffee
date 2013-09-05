@@ -23,7 +23,7 @@ else
   SESSION_SECRET = "bacon-cereal-tempest-1266"
 
 ObjectID = mongodb.ObjectID
-{ setPermissions, ensureAuthenticated, ensureAdmin, ensureTrusted, isAdmin, isTrusted } = require './lib/functions'
+{ ensureAuthenticated, ensureAdmin, ensureTrusted } = require './lib/functions'
 
 passport.serializeUser (user, done) ->
   done null, user
@@ -117,6 +117,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
   app.post '/project/:project', ensureAdmin, (req, res) ->
     { project } = req.params
 
+
     unless req.files["site-file"]
       res.redirect "/project/#{ project }"
       return
@@ -200,7 +201,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
         siteCollection.update { project }, updateAction, (err, doc) ->
           res.send 200
 
-  app.put '/project/:project/language/:language/push', (req, res) ->
+  app.put '/project/:project/language/:language/push', ensureAdmin, (req, res) ->
     { project, language } = req.params
 
     siteCollection.findOne { project }, (err, projectDoc) ->
@@ -226,7 +227,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
           else
             res.send 200
 
-  app.put '/project/:project/generate', (req, res) ->
+  app.put '/project/:project/generate', ensureAdmin, (req, res) ->
     { project, language } = req.params
     { languages } = req.body
 
