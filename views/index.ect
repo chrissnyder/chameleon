@@ -2,8 +2,11 @@
 	<% block 'body': %>
     <% if @user: %>
       <h3>Hello <%- @user.displayName %>!</h3>
-      <p>Your userlevel is <%- @user.userLevel %>.</p>
+      <p>Your level is <%- @user.level %>.</p>
     <% end %>
-		<a href="/project/t7e-test">t7e-test</a>
+
+    <% for projectName, projectDetails of @projects: %>
+  		<a href="/project/<%- projectName %>"><%- projectName %></a>
+    <% end %>
 	<% end %>
 <% end %>

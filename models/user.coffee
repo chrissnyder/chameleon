@@ -5,26 +5,25 @@ ADMIN_LEVEL = 10
 
 class User
   email: ''
-  userLevel: 0
+  level: 0
   displayName: ''
 
-  constructor: (rawUser) ->
-    @displayName = rawUser.displayName
-    @email = rawUser.emails[0].value
+  constructor: ({ @displayName, emails}) ->
+    @email = emails[0].value
 
     if @email in users.admin
-      @userLevel = ADMIN_LEVEL
+      @level = ADMIN_LEVEL
     else if @email in users.trusted
-      @userLevel = TRUSTED_LEVEL
+      @level = TRUSTED_LEVEL
 
   isAdmin: ->
-    if @userLevel >= ADMIN_LEVEL
+    if @level >= ADMIN_LEVEL
       true
     else
       false
 
   isTrusted: ->
-    if @userLevel >= TRUSTED_LEVEL
+    if @level >= TRUSTED_LEVEL
       true
     else
       false

@@ -66,6 +66,7 @@ ensureAdminStack = [ensureAuthenticated, ensureAdmin]
 ###
 Languages = require './lib/languages'
 Projects = require './lib/projects'
+app.locals.projects = Projects
 
 
 connectionUri = url.parse MONGO_URL

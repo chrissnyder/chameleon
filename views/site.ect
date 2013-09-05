@@ -6,13 +6,15 @@
 
 <% block 'body': %>
 
-<div class="content-container">
-<h2>Create</h2>
-<form id="add-site" method="post" action="/project/<%- @project %>" enctype="multipart/form-data">
-	<input type="file" name="site-file" id="site-file">
-	<button type="submit" class="standard-button" id="submit">Submit</button>
-</form>
-</div>
+<% if @user.isAdmin(): %>
+	<div class="content-container">
+		<h2>Create</h2>
+		<form id="add-site" method="post" action="/project/<%- @project %>" enctype="multipart/form-data">
+			<input type="file" name="site-file" id="site-file">
+			<button type="submit" class="standard-button" id="submit">Submit</button>
+		</form>
+	</div>
+<% end %>
 
 <div class="content-container">
 <h2>Translate</h2>
@@ -23,8 +25,14 @@
 			<h3><%- languageString %></h3>
 			<ul>
 				<li><a href="/project/<%- @project %>/language/<%- languageLocale %>/translate">Translate</a> strings</li>
-				<li><a href="/project/<%- @project %>/language/<%- languageLocale %>/resolve">Resolve</a> changes</li>
-				<li><a class="push" data-language="<%- languageLocale %>" href="#">Push</a> updates</li>
+
+				<% if @user.isTrusted(): %>
+					<li><a href="/project/<%- @project %>/language/<%- languageLocale %>/resolve">Resolve</a> changes</li>
+				<% end %>
+
+				<% if @user.isAdmin(): %>
+					<li><a class="push" data-language="<%- languageLocale %>" href="#">Push</a> updates</li>
+				<% end %>
 			</ul>
 		</div>
 	<% end %>
@@ -32,17 +40,19 @@
 <% end %>
 </div>
 
-<div class="content-container">
-<h2>Generate</h2>
-<form class="generate">
-	<select multiple name="languages">
-		<% for languageLocale, languageString of @languages: %>
-			<option data-name="<%- languageLocale %>" data-value="<%- languageString %>"><%- languageString %></option>
-		<% end %>
-	</select>
-	<button type="submit" class="standard-button">Generate Manifest</button>
-</form>
-</div>
+<% if @user.isAdmin(): %>
+	<div class="content-container">
+		<h2>Generate</h2>
+		<form class="generate">
+			<select multiple name="languages">
+				<% for languageLocale, languageString of @languages: %>
+					<option data-name="<%- languageLocale %>" data-value="<%- languageString %>"><%- languageString %></option>
+				<% end %>
+			</select>
+			<button type="submit" class="standard-button">Generate Manifest</button>
+		</form>
+	</div>
+<% end %>
 
 <% end %>
 
