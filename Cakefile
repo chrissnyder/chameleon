@@ -8,5 +8,5 @@ task 'watch', 'Watch source files and build JS & CSS', (options) ->
     proc.on          'exit', (status) -> process.exit(1) if status isnt 0
   
   runCommand 'coffee', '-wc', '-o', 'public/scripts/', 'public/scripts/src/'
-  runCommand 'node_modules/stylus/bin/stylus', '-w', 'public/stylesheets/src/', '-o', 'public/stylesheets/'
+  runCommand 'node_modules/stylus/bin/stylus', '-w', 'public/stylesheets/src/application.styl', '-o', 'public/stylesheets/'
   runCommand 'coffee', 'server.coffee'

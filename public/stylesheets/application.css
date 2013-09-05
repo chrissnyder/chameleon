@@ -175,7 +175,7 @@ h2:after {
   text-decoration: none;
 }
 html {
-  background: #ededed;
+  background: #f2f2f2;
   color: #333;
   font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
   height: 100%;
@@ -251,13 +251,8 @@ a:hover {
   text-decoration: underline;
 }
 #app {
-  box-sizing: border-box;
-  min-height: 100%;
-  padding-bottom: 100px;
-}
-#app > .stack {
   margin: 0 auto;
-  width: 90%;
+  max-width: 1000px;
 }
 body > footer {
   background: #d9d9d9;
@@ -275,25 +270,6 @@ body > footer .logo {
 }
 body > footer p {
   margin: 0;
-}
-.stack > * {
-  display: none;
-}
-.stack > *.active {
-  display: block;
-}
-html .show-for-privileged-user {
-  visibility: hidden;
-}
-html.not-signed-in .hide-without-user,
-html.not-signed-in .show-for-privileged-user {
-  display: none;
-}
-html.signed-in .hide-with-user {
-  display: none;
-}
-html.privileged-user .show-for-privileged-user {
-  visibility: visible;
 }
 .content-container {
   clear: both;
