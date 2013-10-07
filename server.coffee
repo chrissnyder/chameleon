@@ -195,7 +195,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
       res.send 200
 
-  app.get '/project/:project/language/:language/resolve', ensureTrusted, (req, res) ->
+  app.get '/project/:project/language/:language/resolve', ensureTrustedStack, (req, res) ->
     { language, project } = req.params
 
     stringsCollection.findOne { project, language }, (err, doc) ->
@@ -210,7 +210,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
         
       res.render 'resolver.ect', opts
 
-  app.post '/project/:project/language/:language/resolve', ensureTrusted, (req, res) ->
+  app.post '/project/:project/language/:language/resolve', ensureTrustedStack, (req, res) ->
     { language, project } = req.params
     { accept, id, name, value } = req.body
 
