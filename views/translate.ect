@@ -10,12 +10,19 @@
 
 <% if @strings: %>
 	<% for key, string of @strings: %>
-	<form>
-		<label><%= string %>
-			<input type="text" name="<%- key %>" value="<%= string %>">
-		</label>
-		<button type="submit">Send</button>
-	</form>
+
+    <% if string: %>
+    	<form>
+    		<label>
+          <p><b>English:</b></p>
+          <%= string %>
+          <p><b><%- @languageName %>:</b></p>
+    			<textarea name="<%- key %>"><%- string %></textarea>
+    		</label>
+    		<button type="submit">Send</button>
+    	</form>
+    <% end %>
+
 	<% end %>
 <% end %>
 

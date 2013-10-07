@@ -23,7 +23,7 @@ else
   SESSION_SECRET = "bacon-cereal-tempest-1266"
 
 ObjectID = mongodb.ObjectID
-{ ensureAuthenticated, ensureAdmin, ensureTrusted } = require './lib/functions'
+{ ensureAuthenticated, ensureAdmin, ensureTrusted, parseUpload } = require './lib/functions'
 
 passport.serializeUser (user, done) ->
   done null, user
@@ -59,6 +59,7 @@ passport.use new GoogleStrategy
 ##
 ensureAuthenticatedStack = [ensureAuthenticated]
 ensureAdminStack = [ensureAuthenticated, ensureAdmin]
+ensureTrustedStack = [ensureAuthenticated, ensureTrusted]
 
 
 ###
@@ -67,7 +68,6 @@ ensureAdminStack = [ensureAuthenticated, ensureAdmin]
 Languages = require './lib/languages'
 Projects = require './lib/projects'
 app.locals.projects = Projects
-
 
 connectionUri = url.parse MONGO_URL
 dbName = connectionUri.pathname.replace /^\//, ''
@@ -114,12 +114,15 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
     { project } = req.params
     res.render 'site.ect', { project: project, languages: Languages }
 
-  app.post '/project/:project', ensureAdmin, (req, res) ->
+  app.post '/project/:project', ensureAdminStack, (req, res) ->
     { project } = req.params
-
 
     unless req.files["site-file"]
       res.redirect "/project/#{ project }"
+      return
+
+    unless rawStrings = parseUpload req.files["site-file"]
+      res.send 500
       return
 
     query =
@@ -127,12 +130,12 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
     siteCollection.findOne query, (err, doc) ->
       if doc
-        doc.languages.en = JSON.parse fs.readFileSync(req.files["site-file"].path)
+        doc.languages.en = rawStrings
       else
         doc = 
           project: project
           languages:
-            en: JSON.parse fs.readFileSync(req.files["site-file"].path)
+            en: rawStrings
 
       siteCollection.findAndModify query, { project: 1 }, doc, { safe: true, upsert: true }, (err, objects) ->
         fs.unlink req.files["site-file"].path
@@ -144,7 +147,15 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
     siteCollection.findOne { project }, (err, projectDoc) ->
       projectDoc.languages[language] ?= {}
       projectDoc.languages[language] = _.defaults projectDoc.languages[language], projectDoc.languages.en
-      res.render 'translate.ect', { project: project, language: language, en: flatten(projectDoc.languages.en), strings: flatten(projectDoc.languages[language]) }
+
+      opts =
+        project: project
+        language: language
+        en: flatten projectDoc.languages.en
+        strings: flatten projectDoc.languages[language]
+        languageName: Languages[language]
+
+      res.render 'translate.ect', opts
 
   app.post '/project/:project/language/:language/translate', (req, res) ->
     { language, project } = req.params
@@ -168,14 +179,14 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
       res.send 200
 
-  app.get '/project/:project/language/:language/resolve', ensureTrusted, (req, res) ->
+  app.get '/project/:project/language/:language/resolve', (req, res) ->
     { language, project } = req.params
 
     stringsCollection.findOne { project, language }, (err, doc) ->
       { strings } = doc || []
       res.render 'resolver.ect', { language, project, strings }
 
-  app.post '/project/:project/language/:language/resolve', ensureTrusted, (req, res) ->
+  app.post '/project/:project/language/:language/resolve', (req, res) ->
     { language, project } = req.params
     { accept, id, name, value } = req.body
 
@@ -201,7 +212,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
         siteCollection.update { project }, updateAction, (err, doc) ->
           res.send 200
 
-  app.put '/project/:project/language/:language/push', ensureAdmin, (req, res) ->
+  app.put '/project/:project/language/:language/push', (req, res) ->
     { project, language } = req.params
 
     siteCollection.findOne { project }, (err, projectDoc) ->
@@ -223,11 +234,12 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
         ContentType: 'application/json'
         (err, s3Res) ->
           if err
+            console.log err
             res.send 400
           else
             res.send 200
 
-  app.put '/project/:project/generate', ensureAdmin, (req, res) ->
+  app.put '/project/:project/generate', ensureAdminStack, (req, res) ->
     { project, language } = req.params
     { languages } = req.body
 
