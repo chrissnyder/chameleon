@@ -18,9 +18,13 @@ port = process.env.PORT || 3002
 if process.env.PORT
   MONGO_URL = "mongodb://#{ process.env.MONGO_USER }:#{ process.env.MONGO_PASSWORD }@dharma.mongohq.com:10075/app16834628"
   SESSION_SECRET = process.env.SESSION_SECRET
+  RETURN_URL = "http://z8e.herokuapp.com:#{ port }/auth/google/return"
+  REALM = "http://z8e.herokuapp.com:#{ port }/"
 else
   MONGO_URL = "mongodb://localhost:27017/translations"
   SESSION_SECRET = "bacon-cereal-tempest-1266"
+  RETURN_URL = "http://localhost:#{ port }/auth/google/return"
+  REALM = "http://localhost:#{ port }/"
 
 ObjectID = mongodb.ObjectID
 { ensureAuthenticated, ensureAdmin, ensureTrusted, parseUpload } = require './lib/functions'
@@ -45,8 +49,8 @@ app.use passport.initialize()
 app.use passport.session()
 
 passport.use new GoogleStrategy
-  returnURL: "http://localhost:#{ port }/auth/google/return"
-  realm: "http://localhost:#{ port }/"
+  returnURL: RETURN_URL
+  realm: REALM
   (identifier, profile, done) ->
     process.nextTick ->
       profile.identifier = identifier
