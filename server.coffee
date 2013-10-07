@@ -149,6 +149,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
     { language, project } = req.params
 
     siteCollection.findOne { project }, (err, projectDoc) ->
+      prohectDoc ?= {}
       projectDoc.languages[language] ?= {}
       projectDoc.languages[language] = _.defaults projectDoc.languages[language], projectDoc.languages.en
 
