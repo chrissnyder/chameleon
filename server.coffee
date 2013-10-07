@@ -18,8 +18,8 @@ port = process.env.PORT || 3002
 if process.env.PORT
   MONGO_URL = "mongodb://#{ process.env.MONGO_USER }:#{ process.env.MONGO_PASSWORD }@dharma.mongohq.com:10075/app16834628"
   SESSION_SECRET = process.env.SESSION_SECRET
-  RETURN_URL = "http://z8e.herokuapp.com:#{ port }/auth/google/return"
-  REALM = "http://z8e.herokuapp.com:#{ port }/"
+  RETURN_URL = "http://z8e.herokuapp.com/auth/google/return"
+  REALM = "http://z8e.herokuapp.com/"
 else
   MONGO_URL = "mongodb://localhost:27017/translations"
   SESSION_SECRET = "bacon-cereal-tempest-1266"
