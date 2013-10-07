@@ -4,6 +4,10 @@
 	<script type="text/javascript" src="/scripts/site.js"></script>
 <% end %>
 
+<% block 'project': %>
+	<h1><a href="/project/<%- @project %>"><%- @projectName %></a></h1>
+<% end %>
+
 <% block 'body': %>
 
 <% if @user.isAdmin(): %>

@@ -4,6 +4,10 @@
 	<script type="text/javascript" src="/scripts/translate.js"></script>
 <% end %>
 
+<% block 'project': %>
+  <h1><a href="/project/<%- @project %>"><%- @projectName %></a></h1>
+<% end %>
+
 <% block 'body': %>
 <a href="/project/<%- @project %>/language/<%- @language %>/translate">Translate</a> |
 <a href="/project/<%- @project %>/language/<%- @language %>/resolve">Resolve</a>

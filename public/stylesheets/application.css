@@ -7,14 +7,10 @@
 .add-to-collection .collect-this {
   background: #f2f2f2;
   border: 1px solid rgba(0,0,0,0.33);
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  -webkit-box-shadow: 0 1px 0 rgba(255,255,255,0.75) inset;
-  box-shadow: 0 1px 0 rgba(255,255,255,0.75) inset;
   color: #333;
   font-weight: bold;
   padding: 4px 10px;
-  text-shadow: 0 1px 0 #fff;
+  text-shadow: 0 1px 0 rgba(255,255,255,0);
 }
 #standard-button:disabled,
 .standard-button:disabled,
@@ -27,6 +23,7 @@
 .standard-button:hover,
 .add-to-collection .collect-this:hover {
   border-color: rgba(0,0,0,0.67);
+  color: rgba(255,255,255,0.9);
 }
 #standard-button:hover:disabled,
 .standard-button:hover:disabled,
@@ -396,6 +393,7 @@ form button {
   float: right;
   font-size: 14px;
   font-weight: 700;
+  margin: 0 0 0 5px;
   padding: 4px 7px;
   text-shadow: 0 1px 0 rgba(0,0,0,0.5);
 }

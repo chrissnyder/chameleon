@@ -116,7 +116,13 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
   app.get '/project/:project', ensureAuthenticatedStack, (req, res) ->
     { project } = req.params
-    res.render 'site.ect', { project: project, languages: Languages }
+
+    opts =
+      project: project
+      projectName: Projects[project].name
+      languages: Languages
+
+    res.render 'site.ect', opts
 
   app.post '/project/:project', ensureAdminStack, (req, res) ->
     { project } = req.params
@@ -149,16 +155,21 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
     { language, project } = req.params
 
     siteCollection.findOne { project }, (err, projectDoc) ->
-      projectDoc ?= {}
-      projectDoc.languages ?= {}
+      if err
+        console.log 'Error', err
+        res.send 500
+        return
+
+      projectDoc.languages[language] ?= {}
       projectDoc.languages[language] = _.defaults projectDoc.languages[language], projectDoc.languages.en
 
       opts =
         project: project
+        projectName: Projects[project].name
         language: language
+        languageName: Languages[language]
         en: flatten projectDoc.languages.en
         strings: flatten projectDoc.languages[language]
-        languageName: Languages[language]
 
       res.render 'translate.ect', opts
 
@@ -184,14 +195,22 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
       res.send 200
 
-  app.get '/project/:project/language/:language/resolve', (req, res) ->
+  app.get '/project/:project/language/:language/resolve', ensureTrusted, (req, res) ->
     { language, project } = req.params
 
     stringsCollection.findOne { project, language }, (err, doc) ->
       { strings } = doc || []
-      res.render 'resolver.ect', { language, project, strings }
 
-  app.post '/project/:project/language/:language/resolve', (req, res) ->
+      opts =
+        project: project
+        projectName: Projects[project].name
+        language: language
+        languageName: Languages[language]
+        strings: strings
+        
+      res.render 'resolver.ect', opts
+
+  app.post '/project/:project/language/:language/resolve', ensureTrusted, (req, res) ->
     { language, project } = req.params
     { accept, id, name, value } = req.body
 

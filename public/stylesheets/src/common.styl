@@ -14,40 +14,35 @@ $blue = hsl(200, 100, 60);
   font-size: 20px;
 }
 
-#standard-button, .standard-button {
-  background: $gray-light;
-  border: 1px solid rgba($black, 0.33);
-  border-radius: 3px;
-  box-shadow: 0 1px 0 rgba($white, 0.75) inset;
-  color: $gray-dark;
-  font-weight: bold;
-  padding: 4px 10px;
-  text-shadow: 0 1px 0 $white;
+#standard-button, .standard-button
+  background: $gray-light
+  border: 1px solid rgba($black, 0.33)
+  color: $gray-dark
+  font-weight: bold
+  padding: 4px 10px
+  text-shadow: 0 1px 0 rgba(#fff, 0)
   
-  &:disabled {
-    background-color: $gray-less-light;
-    color: $gray;
-    cursor: auto;
-  }
+  &:disabled
+    background-color: $gray-less-light
+    color: $gray
+    cursor: auto
   
-  &:hover {
-    border-color: rgba($black, 0.67);
-  }
+  &:hover
+    border-color: rgba($black, 0.67)
+    color: rgba(#fff, 0.9)
   
-  &:hover:disabled {
-    border-color: rgba($black, 0.33);
-  }
-  
+  &:hover:disabled
+    border-color: rgba($black, 0.33)
+
   &:active,
-  &.selected {
-    box-shadow: 0 100px 0 rgba($black, 0.1) inset, 0 1px 3px rgba($black, 0.25) inset;
-  }
+  &.selected
+    box-shadow: 0 100px 0 rgba($black, 0.1) inset, 0 1px 3px rgba($black, 0.25) inset
   
   &:active:disabled,
-  &.selected:disabled {
-    box-shadow: 0 1px 0 rgba($white, 0.75) inset;
-  }
-}
+  &.selected:disabled
+    box-shadow: 0 1px 0 rgba($white, 0.75) inset
+  
+
 
 #bold-button, .bold-button {
   background linear-gradient($blue, darken($blue, 33%));
