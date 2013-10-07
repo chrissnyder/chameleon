@@ -150,7 +150,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
     siteCollection.findOne { project }, (err, projectDoc) ->
       projectDoc ?= {}
-      projectDoc.languages[language] ?= {}
+      projectDoc.languages ?= {}
       projectDoc.languages[language] = _.defaults projectDoc.languages[language], projectDoc.languages.en
 
       opts =
