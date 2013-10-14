@@ -5,8 +5,10 @@
       <p>Your level is <%- @user.level %>.</p>
     <% end %>
 
-    <% for projectName, projectDetails of @projects: %>
-  		<a href="/project/<%- projectName %>"><%- projectName %></a>
-    <% end %>
+    <ul>
+      <% for projectName, projectDetails of @projects: %>
+    		<li><a href="/project/<%- projectName %>"><%- projectName %></a></li>
+      <% end %>
+    </ul>
 	<% end %>
 <% end %>
