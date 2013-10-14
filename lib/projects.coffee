@@ -9,3 +9,8 @@ module.exports =
     prefix: "plankton-z8e"
     bucket_url: "http://zooniverse-demo.s3-website-us-east-1.amazonaws.com/"
     name: "Plankton Portal Test"
+  "spacewarps-test":
+    bucket: "zooniverse-demo"
+    prefix: "spacewarps-z8e"
+    bucket_url: "http://zooniverse-demo.s3-website-us-east-1.amazonaws.com/"
+    name: "Space Warps Test"
