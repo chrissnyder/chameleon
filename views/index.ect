@@ -7,7 +7,7 @@
 
     <ul>
       <% for projectName, projectDetails of @projects: %>
-    		<li><a href="/project/<%- projectName %>"><%- projectName %></a></li>
+    		<li><a href="/project/<%- projectName %>"><%- projectDetails.name %></a></li>
       <% end %>
     </ul>
 	<% end %>
