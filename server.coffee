@@ -10,7 +10,7 @@ mongodb = require 'mongodb'
 shortId = require 'shortid'
 url = require 'url'
 User = require './models/user'
-_ = require 'underscore'
+_ = require 'lodash'
 
 # Random bits of setup
 port = process.env.PORT || 3002
@@ -161,7 +161,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
         return
 
       projectDoc.languages[language] ?= {}
-      projectDoc.languages[language] = _.extend projectDoc.languages.en, projectDoc.languages[language]
+      projectDoc.languages[language] = _.merge projectDoc.languages.en, projectDoc.languages[language]
 
       opts =
         project: project
@@ -241,7 +241,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
     siteCollection.findOne { project }, (err, projectDoc) ->
       projectDoc.languages[language] ?= {}
-      exportedLanguage = _.extend projectDoc.languages.en, projectDoc.languages[language]
+      exportedLanguage = _.merge projectDoc.languages.en, projectDoc.languages[language]
 
       buffer = new Buffer JSON.stringify(exportedLanguage)
       key = "/translations/#{ language }.json"

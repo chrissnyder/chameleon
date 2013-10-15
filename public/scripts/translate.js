@@ -16,7 +16,6 @@
         return setTimeout(function() {
           return $(e.currentTarget).animate({
             height: 0,
-            width: 0,
             opacity: 0
           });
         }, 2000);
