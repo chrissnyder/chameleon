@@ -161,7 +161,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
         return
 
       projectDoc.languages[language] ?= {}
-      projectDoc.languages[language] = _.defaults projectDoc.languages[language], projectDoc.languages.en
+      projectDoc.languages[language] = _.extend projectDoc.languages.en, projectDoc.languages[language]
 
       opts =
         project: project
@@ -207,7 +207,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
         language: language
         languageName: Languages[language]
         strings: strings
-        
+
       res.render 'resolver.ect', opts
 
   app.post '/project/:project/language/:language/resolve', ensureTrustedStack, (req, res) ->
@@ -241,7 +241,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
     siteCollection.findOne { project }, (err, projectDoc) ->
       projectDoc.languages[language] ?= {}
-      exportedLanguage = _.defaults projectDoc.languages[language], projectDoc.languages.en
+      exportedLanguage = _.extend projectDoc.languages.en, projectDoc.languages[language]
 
       buffer = new Buffer JSON.stringify(exportedLanguage)
       key = "/translations/#{ language }.json"
