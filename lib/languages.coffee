@@ -3,7 +3,13 @@
 
 module.exports =
 	"en": "English"
-	"fr": "French"
-	"es": "Spanish"
-	"pl": "Polish"
+	"cy": "Cymraeg"
+	"es": "Español"
+	"de": "Deutsch"
+	"fr": "Français"
+	"hi": "हिन्दी Hindi"
+	"nl": "Nederlands"
+	"pl": "Polski"
+	"pt": "Português"
+	"zh": "普通話 Chinese (Traditional)"
 	
