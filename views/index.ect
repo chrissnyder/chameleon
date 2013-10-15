@@ -1,13 +1,19 @@
 <% extend 'layout.ect' %>
 	<% block 'body': %>
     <% if @user: %>
-      <h3>Hello <%- @user.displayName %>!</h3>
-      <p>Your level is <%- @user.level %>.</p>
+      <h1><a href="/">z8e</a> &middot; <%- @user.displayName %> &middot; Access Level <%- @user.level %></h1>
+    <% end %>
+    <% if !@user: %>
+      <h1><a href="/">z8e</a> &middot; Translating the Zooniverse</h1>
     <% end %>
 
-    <ul>
+    <ul id="project-list">
       <% for projectName, projectDetails of @projects: %>
-    		<li><a href="/project/<%- projectName %>"><%- projectDetails.name %></a></li>
+    		<a href="/project/<%- projectName %>">
+        <li class="project-item">
+          <span class="project-title"><%- projectDetails.name %></span>
+        </li>
+        </a>
       <% end %>
     </ul>
 	<% end %>

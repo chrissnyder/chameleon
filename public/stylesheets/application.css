@@ -219,14 +219,20 @@ html {
   height: 100%;
 }
 body {
-  margin: 0 0 0 10px;
+  width: 960px;
+  margin: 0 auto;
   height: 100%;
 }
 body > h1 {
   background: #e0e0e0;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #3bf;
   margin: 0;
-  padding: 5px 0;
+  padding: 5px;
+}
+h1 {
+  border-bottom: 1px solid #3bf;
+  margin: 5px 0 8px 0;
+  padding-bottom: 8px;
 }
 h2 {
   color: #3bf;
@@ -302,7 +308,7 @@ a:hover {
 }
 #app {
   margin: 0 auto;
-  max-width: 1000px;
+  max-width: 960px;
   padding: 10px 0 0 0;
 }
 body > footer {
@@ -322,9 +328,38 @@ body > footer .logo {
 body > footer p {
   margin: 0;
 }
+ul#project-list {
+  margin: 0;
+  padding: 0;
+}
+ul#project-list li.project-item {
+  position: relative;
+  display: inline-block;
+  width: 200px;
+  height: 200px;
+  background: #ddd;
+  font-size: 16px;
+  margin: 0 10px 0 0;
+}
+ul#project-list li.project-item:hover {
+  font-weight: bold;
+}
+ul#project-list li.project-item .project-title {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  line-height: 20px;
+  text-align: center;
+  width: 200px;
+}
 .content-container {
   clear: both;
   display: block;
+}
+form#add-site,
+form.generate {
+  width: 50%;
+  margin: 0 auto;
 }
 .language-options {
   width: 200px;
@@ -352,9 +387,10 @@ body > footer p {
 form {
   zoom: 1;
   border-bottom: 1px solid #3bf;
-  padding: 10px;
+  padding: 15px 10px 15px 0px;
   margin: 0 auto;
-  max-width: 500px;
+  display: inline-block;
+  width: 31%;
 }
 form:before,
 form:after {
@@ -367,22 +403,19 @@ form:after {
 form:hover {
   background: #fafafa;
 }
-form:first-of-type {
-  border-top: 1px solid #3bf;
-}
 form p {
   margin: 4px 0;
 }
 form label {
   display: block;
-  padding: 3px;
+  padding: 3px 0px;
 }
 form textarea {
   display: block;
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
-  height: 175px;
+  height: 140px;
   margin: 5px 0 0 0;
   padding: 3px;
   width: 100%;
@@ -399,4 +432,13 @@ form button {
 }
 form button:hover {
   background: rgba(0,0,0,0.7);
+}
+.user-options {
+  clear: both;
+  width: 100%;
+  text-align: left;
+  display: block;
+  border-bottom: 1px solid #3bf;
+  padding-bottom: 8px;
+  font-size: 14px;
 }

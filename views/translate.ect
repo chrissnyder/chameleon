@@ -5,12 +5,14 @@
 <% end %>
 
 <% block 'project': %>
-  <h1><a href="/project/<%- @project %>"><%- @projectName %></a></h1>
+  <h1><a href="/">z8e</a> &middot; <a href="/project/<%- @project %>"><%- @projectName %></a></h1>
 <% end %>
 
 <% block 'body': %>
+<span class="user-options">
 <a href="/project/<%- @project %>/language/<%- @language %>/translate">Translate</a> |
 <a href="/project/<%- @project %>/language/<%- @language %>/resolve">Resolve</a>
+</span>
 
 <% if @strings: %>
 	<% for key, string of @strings: %>
