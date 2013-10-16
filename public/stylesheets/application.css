@@ -382,6 +382,7 @@ form.generate {
   -webkit-padding-start: 20px;
 }
 .language-options li {
+  border: 1px solid transparent;
   font-size: 14px;
 }
 form {
