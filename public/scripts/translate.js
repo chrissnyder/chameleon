@@ -9,7 +9,7 @@
       var currentTarget, target, translateRequest, translateUri;
       currentTarget = _arg.currentTarget;
       target = $(currentTarget);
-      translateUri = "https://www.googleapis.com/language/translate/v2?key=" + GOOGLE_API_KEY + "&source=" + (target.data('language-code')) + "&target=de&q=" + (target.data('translate-string'));
+      translateUri = "https://www.googleapis.com/language/translate/v2?key=" + GOOGLE_API_KEY + "&source=en&target=" + (target.data('language-code')) + "&q=" + (target.data('translate-string'));
       translateRequest = $.get(encodeURI(translateUri));
       return translateRequest.done(function(result) {
         var associatedTextArea, translatedString;
