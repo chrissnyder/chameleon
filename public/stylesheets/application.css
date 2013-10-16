@@ -215,7 +215,7 @@ h2:after {
 html {
   background: #f2f2f2;
   color: #333;
-  font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+  font: 14px "Helvetica Neue", Arial, Helvetica, sans-serif;
   height: 100%;
 }
 body {
@@ -383,7 +383,6 @@ form.generate {
 }
 .language-options li {
   border: 1px solid transparent;
-  font-size: 14px;
 }
 form {
   zoom: 1;
@@ -425,7 +424,6 @@ form button {
   background: rgba(0,0,0,0.5);
   color: #fff;
   float: right;
-  font-size: 14px;
   font-weight: 700;
   margin: 0 0 0 5px;
   padding: 4px 7px;
@@ -441,5 +439,4 @@ form button:hover {
   display: block;
   border-bottom: 1px solid #3bf;
   padding-bottom: 8px;
-  font-size: 14px;
 }
