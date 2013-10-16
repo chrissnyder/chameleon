@@ -3,7 +3,7 @@ GOOGLE_API_KEY = 'AIzaSyCiX8byicCP61gdCd9nYIzhzbHLNmw63pc'
 $ ->
 	$('button[name="google-translate"]').on 'click', ({ currentTarget }) ->
 		target = $(currentTarget)
-		translateUri = "https://www.googleapis.com/language/translate/v2?key=#{ GOOGLE_API_KEY }&source=#{ target.data('language-code') }&target=de&q=#{ target.data('translate-string') }"
+		translateUri = "https://www.googleapis.com/language/translate/v2?key=#{ GOOGLE_API_KEY }&source=en&target=#{ target.data('language-code') }&q=#{ target.data('translate-string') }"
 
 		translateRequest = $.get encodeURI translateUri
 		translateRequest.done (result) ->
