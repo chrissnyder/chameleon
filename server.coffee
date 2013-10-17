@@ -10,6 +10,7 @@ mongodb = require 'mongodb'
 shortId = require 'shortid'
 url = require 'url'
 User = require './models/user'
+UserList = require './lib/users'
 _ = require 'lodash'
 
 # Random bits of setup
@@ -54,8 +55,7 @@ passport.use new GoogleStrategy
   (identifier, profile, done) ->
     process.nextTick ->
       profile.identifier = identifier
-      user = new User profile
-      app.locals.user = user
+      user = new User {displayName: profile.displayName, email: profile.emails[0].value}
       done null, user
 
 ##
@@ -108,7 +108,12 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
   )
 
   app.get '/', ensureAuthenticatedStack, (req, res) ->
-    res.render 'index.ect', {languages: Languages, projects: Projects}
+    opts =
+      user: new User req.user
+      languages: Languages
+      projects: Projects
+
+    res.render 'index.ect', opts
 
   app.get '/login', (req, res) ->
     res.render 'login.ect'
@@ -116,8 +121,9 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
   app.get '/project/:project', ensureAuthenticatedStack, (req, res) ->
     { project } = req.params
-
+    
     opts =
+      user: new User req.user
       projectKey: project
       projectObj: Projects[project]
       languages: Languages
@@ -164,6 +170,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
       projectDoc.languages[language] = _.merge projectDoc.languages.en, projectDoc.languages[language]
 
       opts =
+        user: new User req.user
         project: project
         projectName: Projects[project].name
         language: language
@@ -202,6 +209,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
       { strings } = doc || []
 
       opts =
+        user: new User req.user
         project: project
         projectName: Projects[project].name
         language: language

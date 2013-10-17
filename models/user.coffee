@@ -20,9 +20,7 @@ class User
   level: 0
   displayName: ''
 
-  constructor: ({ @displayName, emails}) ->
-    @email = emails[0].value
-
+  constructor: ({ @displayName, @email}) ->
     if @email in users.admin
       @level = ADMIN_LEVEL
     else if @email in users.trusted
