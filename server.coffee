@@ -118,8 +118,8 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
     { project } = req.params
 
     opts =
-      project: project
-      projectName: Projects[project].name
+      projectKey: project
+      projectObj: Projects[project]
       languages: Languages
 
     res.render 'site.ect', opts

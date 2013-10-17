@@ -5,7 +5,8 @@
 <% end %>
 
 <% block 'project': %>
-	<h1><a href="/">z8e</a> &middot; <a href="/project/<%- @project %>"><%- @projectName %></a></h1>
+	<h1><a href="/">z8e</a> &middot; <a href="/project/<%- @projectKey %>"><%- @projectObj.name %></a></h1>
+	<p>Project Location: <a href="<%- @projectObj.bucket_url %><%- @projectObj.prefix %>" target="_blank"><%- @projectObj.bucket_url %><%- @projectObj.prefix %></a></p>
 <% end %>
 
 <% block 'body': %>
@@ -13,11 +14,16 @@
 <% if @user.isAdmin(): %>
 	<div class="content-container">
 		<h2>Create</h2>
-		<form id="add-site" method="post" action="/project/<%- @project %>" enctype="multipart/form-data">
+		<form id="add-site" method="post" action="/project/<%- @projectKey %>" enctype="multipart/form-data">
 			<input type="file" name="site-file" id="site-file">
 			<button type="submit" class="standard-button" id="submit">Submit</button>
 		</form>
 		<p>Note: If uploading coffeescript, the server evals it. Use with caution.</p>
+		<p>
+			Also not entirely sure how well the system handles uploading new base 
+			language files after translation effort have been underway for awhile. Again,
+			use this feature with caution.
+		</p>
 	</div>
 <% end %>
 
@@ -29,10 +35,10 @@
 		<div class="language-options">
 			<h3><%- languageString %></h3>
 			<ul>
-				<li><a href="/project/<%- @project %>/language/<%- languageLocale %>/translate">Translate</a> strings</li>
+				<li><a href="/project/<%- @projectKey %>/language/<%- languageLocale %>/translate">Translate</a> strings</li>
 
 				<% if @user.isTrusted(): %>
-					<li><a href="/project/<%- @project %>/language/<%- languageLocale %>/resolve">Resolve</a> changes</li>
+					<li><a href="/project/<%- @projectKey %>/language/<%- languageLocale %>/resolve">Resolve</a> changes</li>
 				<% end %>
 
 				<% if @user.isAdmin(): %>
