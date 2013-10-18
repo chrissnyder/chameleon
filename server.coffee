@@ -157,7 +157,7 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
         fs.unlink req.files["site-file"].path
         res.redirect "/project/#{ project }"
 
-  app.get '/project/:project/language/:language/translate', (req, res) ->
+  app.get '/project/:project/language/:language/translate', ensureAuthenticatedStack, (req, res) ->
     { language, project } = req.params
 
     siteCollection.findOne { project }, (err, projectDoc) ->
