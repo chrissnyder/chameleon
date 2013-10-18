@@ -26,7 +26,7 @@
     			<textarea name="<%- key %>"><%- string %></textarea>
     		</label>
         <% if @user.isTrusted(): %>
-          <button type="button" name="google-translate" data-language-code="<%= @language %>" data-translate-string="<%- string %>">Auto-Translate</button>
+          <button type="button" name="google-translate" data-language-code="<%= @language %>" data-translate-string="<%= string %>">Auto-Translate</button>
         <% end %>
     		<button type="submit">Send</button>
     	</form>
