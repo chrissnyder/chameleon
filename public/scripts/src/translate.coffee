@@ -1,4 +1,4 @@
-GOOGLE_API_KEY = 'AIzaSyCiX8byicCP61gdCd9nYIzhzbHLNmw63pc'
+GOOGLE_API_KEY = 'AIzaSyDoehw7uaZLP99B6zr8zaAxYplx-8vA-6g'
 
 $ ->
 	$('button[name="google-translate"]').on 'click', ({ currentTarget }) ->
