@@ -7,6 +7,7 @@ module.exports =
 	trusted: [
 		'bumishness@gmail.com'
     	'rob@zooniverse.org'
-    	'anupreeta.more@gmail.com',
+    	'anupreeta.more@gmail.com'
     	'CaLiefke@gmx.de'
+    	'riherrera@gmail.com'
 	]
