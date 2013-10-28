@@ -15,12 +15,17 @@
 	<div class="content-container">
 		<h2>Create</h2>
 		<form id="add-site" method="post" action="/project/<%- @projectKey %>" enctype="multipart/form-data">
+			<select name="language">
+				<% for languageLocale, languageString of @languages: %>
+					<option value="<%- languageLocale %>"><%- languageString %></option>
+				<% end %>
+			</select>
 			<input type="file" name="site-file" id="site-file">
 			<button type="submit" class="standard-button" id="submit">Submit</button>
 		</form>
 		<p>Note: If uploading coffeescript, the server evals it. Use with caution.</p>
 		<p>
-			Also not entirely sure how well the system handles uploading new base 
+			Extensive testing has not been done on how well the system handles uploading new base 
 			language files after translation effort have been underway for awhile. Again,
 			use this feature with caution.
 		</p>

@@ -130,8 +130,10 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
     res.render 'site.ect', opts
 
+
   app.post '/project/:project', ensureAdminStack, (req, res) ->
     { project } = req.params
+    { language } = req.body
 
     unless req.files["site-file"]
       res.redirect "/project/#{ project }"
@@ -146,16 +148,17 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
     siteCollection.findOne query, (err, doc) ->
       if doc
-        doc.languages.en = rawStrings
+        doc.languages[language] = rawStrings
       else
         doc = 
           project: project
-          languages:
-            en: rawStrings
+        doc.languages = {}
+        doc.languages[language] = rawStrings
 
       siteCollection.findAndModify query, { project: 1 }, doc, { safe: true, upsert: true }, (err, objects) ->
         fs.unlink req.files["site-file"].path
         res.redirect "/project/#{ project }"
+
 
   app.get '/project/:project/language/:language/translate', ensureAuthenticatedStack, (req, res) ->
     { language, project } = req.params
