@@ -13,4 +13,5 @@ module.exports =
     	'dr.a.n.verma@gmail.com'
     	'matthias.tecza@gmail.com'
     	'gerhard.tecza@gmail.com'
+    	'aprajitaverma1@gmail.com'
 	]
