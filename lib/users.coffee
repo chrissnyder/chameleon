@@ -10,4 +10,7 @@ module.exports =
     	'anupreeta.more@gmail.com'
     	'CaLiefke@gmx.de'
     	'riherrera@gmail.com'
+    	'dr.a.n.verma@gmail.com'
+    	'matthias.tecza@gmail.com'
+    	'gerhard.tecza@gmail.com'
 	]
