@@ -73,13 +73,10 @@ Languages = require './lib/languages'
 Projects = require './lib/projects'
 app.locals.projects = Projects
 
-connectionUri = url.parse MONGO_URL
-dbName = connectionUri.pathname.replace /^\//, ''
-
 mongodb.Db.connect MONGO_URL, (err, db) ->
   if err then throw err
 
-  console.log 'Connected to Mongo.'
+  console.log 'Connected to Mongo. Continuing setup...'
 
   siteCollection = db.collection 'language_data'
   stringsCollection = db.collection 'language_strings'
@@ -331,4 +328,4 @@ mongodb.Db.connect MONGO_URL, (err, db) ->
 
 
   app.listen port, ->
-    console.log "HELLO FROM PORT #{ port }"
+    console.log "z8e ready to serve requests on port #{ port }"
