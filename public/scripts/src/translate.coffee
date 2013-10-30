@@ -16,6 +16,9 @@ $ ->
 		e.preventDefault()
 		formDataArray = $(@).serializeArray()
 
+		# This is awful.
+		formDataArray[0].action = $(e.currentTarget).find('#action').data('action')
+
 		request = $.ajax
 			type: "POST"
 			url: "#{ window.location.pathname }"

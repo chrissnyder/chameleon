@@ -1,5 +1,5 @@
 <% @projectName = @ProjectsList[@project].name %>
-<% @languageName = @LanguagesList[@language].name %>
+<% @languageName = @LanguagesList[@language] %>
 
 <% extend 'layout.ect' %>
 
@@ -13,8 +13,8 @@
 
 <% block 'body': %>
 <span class="user-options">
-<a href="/project/<%- @project %>/language/<%- @language %>/translate">Translate</a> |
-<a href="/project/<%- @project %>/language/<%- @language %>/resolve">Resolve</a>
+  <a href="/project/<%- @project %>/language/<%- @language %>/translate">Translate</a> |
+  <a href="/project/<%- @project %>/language/<%- @language %>/resolve">Resolve</a>
 </span>
 
 <% if @strings: %>
@@ -30,8 +30,10 @@
     		</label>
         <% if @user.isTrusted(): %>
           <button type="button" name="google-translate" data-language-code="<%= @language %>" data-translate-string="<%= string %>">Auto-Translate</button>
+          <button type="submit" id="action" data-action="resolve">Send and Resolve</button>
+        <% else: %>
+          <button type="submit" id="action" data-action="send">Send</button>
         <% end %>
-    		<button type="submit">Send</button>
     	</form>
     <% end %>
 

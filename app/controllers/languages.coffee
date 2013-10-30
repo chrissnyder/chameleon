@@ -30,25 +30,40 @@ module.exports = ({ app, db }) ->
 
   post: (req, res) ->
     { language, project } = req.params
-    { name, value } = req.body
-
+    { name, value, action } = req.body
+    
     unless name and value
       res.send 400
       return
 
-    stringObj = {}
-    stringObj[name] = value
+    if action is 'resolve' and req.user.isTrusted()
+      console.log 'Resolving translation.'
 
-    obj = {}
-    obj["string"] = stringObj
-    obj["id"] = shortId.generate()
+      obj = {}
+      obj["languages.#{ language }.#{ name }"] = value
 
-    stringsCollection.update { project, language }, { $push: { strings: obj } }, { upsert: true, w: 1 }, (err, updatedDoc) ->
-      if err
-        res.send 400
-        return
+      updateAction =
+        $set: obj
 
-      res.send 200
+      siteCollection.update { project }, updateAction, (err, doc) ->
+        res.send 200
+
+    else
+      console.log 'Saving translation for review.'
+
+      stringObj = {}
+      stringObj[name] = value
+
+      obj = {}
+      obj["string"] = stringObj
+      obj["id"] = shortId.generate()
+
+      stringsCollection.update { project, language }, { $push: { strings: obj } }, { upsert: true, w: 1 }, (err, updatedDoc) ->
+        if err
+          res.send 400
+          return
+
+        res.send 200
 
   getResolve: (req, res) ->
     { language, project } = req.params

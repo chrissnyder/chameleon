@@ -24,6 +24,7 @@
       var formDataArray, request;
       e.preventDefault();
       formDataArray = $(this).serializeArray();
+      formDataArray[0].action = $(e.currentTarget).find('#action').data('action');
       request = $.ajax({
         type: "POST",
         url: "" + window.location.pathname,
