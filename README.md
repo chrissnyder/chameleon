@@ -4,6 +4,6 @@ Translation service for the Zooniverse. Located at [http://z8e.herokuapp.com](ht
 
 ### Deploying
 
-  npm run-script deploy
+    npm run-script deploy
 
 Note deploying force pushes to Heroku. Probably a bad idea. The account used is billing@zooniverse.org. Ask for the SSH keys from someone who has them.
