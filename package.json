@@ -22,6 +22,7 @@
     "node": "0.10.x"
   },
   "scripts": {
-    "start": "cake start"
+    "start": "cake start",
+    "deploy": "git push heroku master --force"
   }
 }
