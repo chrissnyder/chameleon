@@ -53,15 +53,19 @@ module.exports = ({ app, db }) ->
   getResolve: (req, res) ->
     { language, project } = req.params
 
-    stringsCollection.findOne { project, language }, (err, doc) ->
-      { strings } = doc || []
+    siteCollection.findOne { project }, (err, projectDoc) ->
+      enStrings = flatten projectDoc.languages.en
 
-      opts =
-        project: project
-        language: language
-        strings: strings
+      stringsCollection.findOne { project, language }, (err, doc) ->
+        { strings } = doc || []
 
-      res.render 'resolver.ect', opts
+        opts =
+          project: project
+          language: language
+          en: enStrings
+          strings: strings
+
+        res.render 'resolver.ect', opts
 
   postResolve: (req, res) ->
     { language, project } = req.params

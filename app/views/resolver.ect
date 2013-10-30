@@ -1,4 +1,6 @@
 <% @projectName = @ProjectsList[@project].name %>
+<% @languageName = @LanguagesList[@language] %>
+
 
 <% extend 'layout.ect' %>
 
@@ -7,20 +9,26 @@
 <% end %>
 
 <% block 'project': %>
-  <h1><a href="/project/<%- @project %>"><%- @projectName %></a></h1>
+  <h1><a href="/">z8e</a> &middot; <a href="/project/<%- @project %>"><%- @projectName %></a></h1>
 <% end %>
 
 <% block 'body': %>
+<span class="user-options">
+	<a href="/project/<%- @project %>/language/<%- @language %>/translate">Translate</a> |
+	<a href="/project/<%- @project %>/language/<%- @language %>/resolve">Resolve</a>
+</span>
 
-<a href="/project/<%- @project %>/language/<%- @language %>/translate">Translate</a> |
-<a href="/project/<%- @project %>/language/<%- @language %>/resolve">Resolve</a>
+<span class="user-options">
+	<h4>Proposed <%- @languageName %> Changes</h4>
+</span>
 
 <% if @strings: %>
 	<% for { string, id } in @strings: %>
 		<% for key, value of string: %>
 			<form>
 				<b>Key:</b> <%- key %><br>
-				<b>Value:</b> <%- value %><br>
+				<b>English:</b> <%- @en[key] %><br>
+				<b>Proposed:</b> <%- value %><br>
 
 				<input type="hidden" name="id" value="<%- id %>">
 				<input type="hidden" name="key" value="<%- key %>">
