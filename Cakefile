@@ -8,5 +8,5 @@ task 'start', 'Compile JS/CSS and start server.', (options) ->
     proc.on          'exit', (status) -> process.exit(1) if status isnt 0
   
   runCommand 'coffee', '-wc', '-o', 'public/scripts/', 'public/scripts/src/'
-  runCommand 'node_modules/stylus/bin/stylus', '-u', './node_modules/nib/lib/nib', '-w', 'public/stylesheets/src/application.styl', '-o', 'public/stylesheets/'
-  runCommand 'coffee', 'server.coffee'
+  runCommand 'node_modules/stylus/bin/stylus', '-u', './node_modules/nib/lib/nib', '-w', 'public/styles/src/application.styl', '-o', 'public/styles/'
+  runCommand 'coffee', './app/server.coffee'

@@ -1,3 +1,5 @@
+<% @projectObj = @ProjectsList[@project] %>
+
 <% extend 'layout.ect' %>
 
 <% block 'javascript': %>
@@ -5,7 +7,7 @@
 <% end %>
 
 <% block 'project': %>
-	<h1><a href="/">z8e</a> &middot; <a href="/project/<%- @projectKey %>"><%- @projectObj.name %></a></h1>
+	<h1><a href="/">z8e</a> &middot; <a href="/project/<%- @project %>"><%- @projectObj.name %></a></h1>
 	<p>Project Location: <a href="<%- @projectObj.bucket_url %><%- @projectObj.prefix %>" target="_blank"><%- @projectObj.bucket_url %><%- @projectObj.prefix %></a></p>
 <% end %>
 
@@ -14,9 +16,9 @@
 <% if @user.isAdmin(): %>
 	<div class="content-container">
 		<h2>Create</h2>
-		<form id="add-site" method="post" action="/project/<%- @projectKey %>" enctype="multipart/form-data">
+		<form id="add-site" method="post" action="/project/<%- @project %>" enctype="multipart/form-data">
 			<select name="language">
-				<% for languageLocale, languageString of @languages: %>
+				<% for languageLocale, languageString of @LanguagesList: %>
 					<option value="<%- languageLocale %>"><%- languageString %></option>
 				<% end %>
 			</select>
@@ -34,16 +36,15 @@
 
 <div class="content-container">
 <h2>Translate</h2>
-<% if @languages: %>
 	<div class="language-container">
-	<% for languageLocale, languageString of @languages: %>
+	<% for languageLocale, languageString of @LanguagesList: %>
 		<div class="language-options">
 			<h3><%- languageString %></h3>
 			<ul>
-				<li><a href="/project/<%- @projectKey %>/language/<%- languageLocale %>/translate">Translate</a> strings</li>
+				<li><a href="/project/<%- @project %>/language/<%- languageLocale %>/translate">Translate</a> strings</li>
 
 				<% if @user.isTrusted(): %>
-					<li><a href="/project/<%- @projectKey %>/language/<%- languageLocale %>/resolve">Resolve</a> changes</li>
+					<li><a href="/project/<%- @project %>/language/<%- languageLocale %>/resolve">Resolve</a> changes</li>
 				<% end %>
 
 				<% if @user.isAdmin(): %>
@@ -53,7 +54,6 @@
 		</div>
 	<% end %>
 	</div>
-<% end %>
 </div>
 
 <% if @user.isAdmin(): %>
@@ -61,7 +61,7 @@
 		<h2>Generate</h2>
 		<form class="generate">
 			<select multiple name="languages">
-				<% for languageLocale, languageString of @languages: %>
+				<% for languageLocale, languageString of @LanguagesList: %>
 					<option data-name="<%- languageLocale %>" data-value="<%- languageString %>"><%- languageString %></option>
 				<% end %>
 			</select>
