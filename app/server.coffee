@@ -15,7 +15,7 @@ _ = require 'lodash'
 port = process.env.PORT || 3002
 
 if process.env.PORT
-  MONGO_URL = "mongodb://#{ process.env.MONGO_USER }:#{ process.env.MONGO_PASSWORD }@dharma.mongohq.com:10075/app16834628"
+  MONGO_URL = "mongodb://#{ process.env.MONGO_USER }:#{ process.env.MONGO_PASSWORD }@paulo.mongohq.com:10057/app18536257"
   SESSION_SECRET = process.env.SESSION_SECRET
   RETURN_URL = "http://z8e.herokuapp.com/auth/google/return"
   REALM = "http://z8e.herokuapp.com/"
