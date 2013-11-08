@@ -45,10 +45,10 @@ app.engine '.ect', ectRenderer.render
 
 app.set 'views', __dirname + '/views'
 
-app.use express.static(path.resolve(__dirname, '../public'))
-app.use express.bodyParser({uploadDir: __dirname + '/uploads'})
-app.use(express.cookieParser())
-app.use(express.session({secret: SESSION_SECRET}))
+app.use express.static path.resolve __dirname, '../public'
+app.use express.bodyParser { uploadDir: path.resolve __dirname, '../uploads' }
+app.use express.cookieParser()
+app.use express.session { secret: SESSION_SECRET }
 app.use passport.initialize()
 app.use passport.session()
 app.use (req, res, next) ->
