@@ -1,3 +1,4 @@
+fs = require 'fs'
 jsdom = require 'jsdom'
 { parseUpload } = require '../lib/functions'
 User = require '../models/user'
