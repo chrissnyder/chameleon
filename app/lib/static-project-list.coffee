@@ -1,4 +1,8 @@
 module.exports =
+  "plankton-portal":
+    bucket: "www.planktonportal.org"
+    bucket_url: "http://www.planktonportal.org/"
+    name: "Plankton Portal"
   "t7e-test":
     bucket: "zooniverse-demo"
     prefix: "t7e-test"
