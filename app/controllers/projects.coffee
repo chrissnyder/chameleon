@@ -71,7 +71,7 @@ module.exports = ({ app, db }) ->
       scriptTag = document.createElement 'script'
       scriptTag.setAttribute 'type', 'text/javascript'
       scriptTag.id = "define-zooniverse-languages"
-      scriptTag.innerHTML = "window.DEFINE_ZOONIVERSE_LANGUAGES = #{ JSON.stringify exportedLanguages }"
+      scriptTag.innerHTML = "window.AVAILABLE_TRANSLATIONS = #{ JSON.stringify exportedLanguages }"
 
       firstScript = document.body.querySelector('script')
 
