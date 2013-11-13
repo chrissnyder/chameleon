@@ -116,10 +116,10 @@ module.exports = ({ app, db }) ->
       exportedLanguage = _.merge projectDoc.languages.en, projectDoc.languages[language]
 
       buffer = new Buffer JSON.stringify exportedLanguage
-      key = "/translations/#{ language }.json"
+      key = "translations/#{ language }.json"
 
       if ProjectsList[project].prefix
-        key = "#{ ProjectsList[project].prefix }" + key
+        key = "#{ ProjectsList[project].prefix }/" + key
 
       bucket = ProjectsList[project].bucket
 
