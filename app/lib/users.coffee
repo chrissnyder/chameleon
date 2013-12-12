@@ -2,6 +2,7 @@ module.exports =
   admin: [
     'cs@zooniverse.org'
     'ttfnrob@gmail.com'
+    'team@zooniverse.org'
   ]
 
   trusted: [
@@ -14,4 +15,8 @@ module.exports =
     'matthias.tecza@gmail.com'
     'gerhard.tecza@gmail.com'
     'aprajitaverma1@gmail.com'
+    'eddy.pirotte@telenet.be'
+    'megan.schwamb@gmail.com'
+    'ooba84@gmail.com'
+    'suncoup@gmail.com'
   ]
