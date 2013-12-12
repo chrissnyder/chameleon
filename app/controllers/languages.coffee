@@ -122,11 +122,12 @@ module.exports = ({ app, db }) ->
         key = "#{ ProjectsList[project].prefix }/" + key
 
       bucket = ProjectsList[project].bucket
+      key = ProjectsList[project].key || process.env.AMAZON_ACCESS_KEY_ID
+      secret = ProjectsList[project].secret || process.env.AMAZON_ACCESS_KEY_ID
 
       s3 = new AWS.S3
-        accessKeyId: process.env.AMAZON_ACCESS_KEY_ID
-        secretAccessKey: process.env.AMAZON_SECRET_ACCESS_KEY
-        region: 'us-east-1'
+        accessKeyId: key
+        secretAccessKey: secret
 
       s3.putObject
         Bucket: bucket
