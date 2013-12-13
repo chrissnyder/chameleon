@@ -60,7 +60,7 @@
 	<div class="content-container">
 		<h2>Generate</h2>
 		<form class="generate">
-			<select multiple name="languages">
+			<select multiple name="languages" size="10">
 				<% for languageLocale, languageString of @LanguagesList: %>
 					<option data-name="<%- languageLocale %>" data-value="<%- languageString %>"><%- languageString %></option>
 				<% end %>
