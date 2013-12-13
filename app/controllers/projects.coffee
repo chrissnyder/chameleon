@@ -1,9 +1,12 @@
+AWS = require 'aws-sdk'
 fs = require 'fs'
 jsdom = require 'jsdom'
 { parseUpload } = require '../lib/functions'
 User = require '../models/user'
 
 module.exports = ({ app, db }) ->
+  { ProjectsList, LanguagesList } = app.locals
+
   get: (req, res) ->
     { project } = req.params
     
@@ -51,19 +54,18 @@ module.exports = ({ app, db }) ->
     unless Array.isArray languages
       languages = [languages]
 
-    for languageLocale, languageString of Languages
+    for languageLocale, languageString of LanguagesList
       exportedLanguages[languageLocale] = languageString if languageString in languages
 
     siteUrl = ProjectsList[project].bucket_url
     if ProjectsList[project].prefix
       siteUrl = siteUrl + ProjectsList[project].prefix
 
-    jsdom.env siteUrl, (err, window) ->
+    jsdom.env siteUrl, (err, { document }) ->
       if err
         res.send 400
         return
 
-      document = window.document
       # Start fresh each time
       dataEls = document.querySelectorAll "script[id^=define-zooniverse-languages]"
       dataEls[i]?.parentNode.removeChild(dataEls[i]) for i in [0..dataEls.length - 1]
@@ -88,13 +90,24 @@ module.exports = ({ app, db }) ->
         key = "#{ Projects[project].prefix }/" + key
 
       bucket = ProjectsList[project].bucket
+      accessKeyId = ProjectsList[project].key || process.env.AMAZON_ACCESS_KEY_ID
+      secretAccessKey = ProjectsList[project].secret || process.env.AMAZON_SECRET_ACCESS_KEY
+
+      s3 = new AWS.S3
+        accessKeyId: accessKeyId
+        secretAccessKey: secretAccessKey
+
       s3.putObject
         Bucket: bucket
         Key: key
-        ACL: "public-read"
         Body: buffer
+        ACL: "public-read"
         ContentType: "text/html"
         (err, s3Res) ->
-          if err then res.send 400; return
+          if err
+            console.log err
+            res.send 400
+            return
+
           res.send 200
 
