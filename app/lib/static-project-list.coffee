@@ -17,3 +17,7 @@ module.exports =
     name: "Milky Way Project"
     key: process.env.ALT_AMAZON_ACCESS_KEY_ID
     secret: process.env.ALT_AMAZON_SECRET_ACCESS_KEY
+  "worms":
+    bucket: "www.wormwatclab.org"
+    bucket_url: "http://www.wormwatchlab.org/"
+    name: "Worm Watch Lab"
