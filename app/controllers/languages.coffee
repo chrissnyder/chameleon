@@ -4,7 +4,7 @@ shortId = require 'shortid'
 _ = require 'lodash'
 
 module.exports = ({ app, db }) ->
-  ProjectsList = app.locals.ProjectsList
+  { ProjectsList } = app.locals
   siteCollection = db.collection 'language_data'
   stringsCollection = db.collection 'language_strings'
 
@@ -116,14 +116,14 @@ module.exports = ({ app, db }) ->
       exportedLanguage = _.merge projectDoc.languages.en, projectDoc.languages[language]
 
       buffer = new Buffer JSON.stringify exportedLanguage
-      key = "translations/#{ language }.json"
+      prefix = "translations/#{ language }.json"
 
       if ProjectsList[project].prefix
-        key = "#{ ProjectsList[project].prefix }/" + key
+        prefix = "#{ ProjectsList[project].prefix }/" + prefix
 
-      bucket = ProjectsList[project].bucket
-      accessKeyId = ProjectsList[project].key || process.env.AMAZON_ACCESS_KEY_ID
-      secretAccessKey = ProjectsList[project].secret || process.env.ALT_AMAZON_SECRET_ACCESS_KEY
+      { bucket, key, secret } = ProjectsList[project]
+      accessKeyId = key || process.env.AMAZON_ACCESS_KEY_ID
+      secretAccessKey = secret || process.env.ALT_AMAZON_SECRET_ACCESS_KEY
 
       s3 = new AWS.S3
         accessKeyId: accessKeyId
@@ -131,7 +131,7 @@ module.exports = ({ app, db }) ->
 
       s3.putObject
         Bucket: bucket
-        Key: key
+        Key: prefix
         Body: buffer
         ACL: 'public-read'
         ContentType: 'application/json'

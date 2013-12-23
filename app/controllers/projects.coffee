@@ -1,8 +1,23 @@
 AWS = require 'aws-sdk'
 fs = require 'fs'
 jsdom = require 'jsdom'
-{ parseUpload } = require '../lib/functions'
 User = require '../models/user'
+
+parseUpload: (fileObject) ->
+  try
+    switch path.extname fileObject.name
+      when ".json"
+        rawStrings = JSON.parse fs.readFileSync fileObject.path
+      when ".coffee"
+        rawFile = fs.readFileSync fileObject.path
+        rawStrings = coffee.eval rawFile.toString()
+      else
+        throw new Error 'File extension not supported.'
+  catch e
+    console.log 'e', e
+    return false
+
+  rawStrings
 
 module.exports = ({ app, db }) ->
   { ProjectsList, LanguagesList } = app.locals

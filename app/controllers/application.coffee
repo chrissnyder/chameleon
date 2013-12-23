@@ -1,4 +1,4 @@
-module.exports =
+module.exports = ({ app, db }) ->
   get: (req, res) ->
     res.render 'index.ect'
 

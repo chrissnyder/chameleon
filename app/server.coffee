@@ -1,17 +1,10 @@
 express = require 'express'
 ECT = require 'ect'
-{ flatten, unflatten } = require 'flat'
-fs = require 'fs'
-path = require 'path'
-passport = require 'passport'
-GoogleStrategy = require('passport-google').Strategy
 { Db, ObjectID } = require 'mongodb'
-url = require 'url'
-User = require './models/user'
-UserList = require './lib/users'
-_ = require 'lodash'
+path = require 'path'
 
-# Random bits of setup
+User = require './models/user'
+
 port = process.env.PORT || 3002
 
 if process.env.PORT
@@ -25,17 +18,7 @@ else
   RETURN_URL = "http://localhost:#{ port }/auth/google/return"
   REALM = "http://localhost:#{ port }/"
 
-{ ensureAuthenticated, ensureAdmin, ensureTrusted, parseUpload } = require './lib/functions'
-ensureAuthenticatedStack = [ensureAuthenticated]
-ensureAdminStack = [ensureAuthenticated, ensureAdmin]
-ensureTrustedStack = [ensureAuthenticated, ensureTrusted]
-
-passport.serializeUser (user, done) ->
-  done null, user
-
-passport.deserializeUser (obj, done) ->
-  done null, new User obj
-
+## Express setup
 app = express()
 
 ectRenderer = ECT
@@ -49,8 +32,22 @@ app.use express.static path.resolve __dirname, '../public'
 app.use express.bodyParser { uploadDir: path.resolve __dirname, '../uploads' }
 app.use express.cookieParser()
 app.use express.session { secret: SESSION_SECRET }
+
+## Auth
+passport = require 'passport'
+GoogleStrategy = require('passport-google').Strategy
+
+{ authStack, trustedStack, adminStack } = require './lib/auth-middleware'
+
+passport.serializeUser (user, done) ->
+  done null, user
+
+passport.deserializeUser (obj, done) ->
+  done null, new User obj
+
 app.use passport.initialize()
 app.use passport.session()
+
 app.use (req, res, next) ->
   res.locals.user = req.user if req.user?
   next()
@@ -64,22 +61,16 @@ passport.use new GoogleStrategy
       user = new User {displayName: profile.displayName, email: profile.emails[0].value}
       done null, user
 
+## Locals
 app.locals.LanguagesList = LanguagesList = require './lib/static-languages-list'
 app.locals.ProjectsList = ProjectsList = require './lib/static-project-list'
 
+## Go
 Db.connect MONGO_URL, (err, db) ->
   if err then throw err
   console.log 'Connected to Mongo. Continuing setup...'
 
-  siteCollection = db.collection 'language_data'
-  stringsCollection = db.collection 'language_strings'
-
-  ###
-  # Controllers
-  ###
-  Application = require './controllers/application'
-  Projects = require('./controllers/projects')({ app, db })
-  Languages = require('./controllers/languages')({ app, db })
+  { Application, Projects, Languages } = require('./controllers')({ app, db })
 
   # Authentication Routes
   app.get(
@@ -96,18 +87,18 @@ Db.connect MONGO_URL, (err, db) ->
       res.redirect '/'
   )
 
-  app.get '/', ensureAuthenticatedStack, Application.get
+  app.get '/', authStack, Application.get
   app.get '/login', Application.login
 
-  app.get '/project/:project', ensureAuthenticatedStack, Projects.get
-  app.post '/project/:project', ensureAdminStack, Projects.bootstrap
-  app.put '/project/:project/generate', ensureAdminStack, Projects.generateManifest
+  app.get '/project/:project', authStack, Projects.get
+  app.post '/project/:project', adminStack, Projects.bootstrap
+  app.put '/project/:project/generate', adminStack, Projects.generateManifest
 
-  app.get '/project/:project/language/:language/translate', ensureAuthenticatedStack, Languages.get
-  app.post '/project/:project/language/:language/translate', ensureAuthenticatedStack, Languages.post
-  app.get '/project/:project/language/:language/resolve', ensureTrustedStack, Languages.getResolve
-  app.post '/project/:project/language/:language/resolve', ensureTrustedStack, Languages.postResolve
-  app.put '/project/:project/language/:language/push', ensureAdminStack, Languages.pushLanguage
+  app.get '/project/:project/language/:language/translate', authStack, Languages.get
+  app.post '/project/:project/language/:language/translate', authStack, Languages.post
+  app.get '/project/:project/language/:language/resolve', trustedStack, Languages.getResolve
+  app.post '/project/:project/language/:language/resolve', trustedStack, Languages.postResolve
+  app.put '/project/:project/language/:language/push', adminStack, Languages.pushLanguage
 
   app.listen port, ->
     console.log "z8e ready to serve requests on port #{ port }"
