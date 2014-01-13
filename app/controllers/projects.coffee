@@ -1,9 +1,11 @@
 AWS = require 'aws-sdk'
+coffee = require 'coffee-script'
 fs = require 'fs'
 jsdom = require 'jsdom'
+path = require 'path'
 User = require '../models/user'
 
-parseUpload: (fileObject) ->
+parseUpload = (fileObject) ->
   try
     switch path.extname fileObject.name
       when ".json"
