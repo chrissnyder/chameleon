@@ -125,6 +125,8 @@ module.exports = ({ app, db }) ->
       accessKeyId = key || process.env.AMAZON_ACCESS_KEY_ID
       secretAccessKey = secret || process.env.ALT_AMAZON_SECRET_ACCESS_KEY
 
+      console.log bucket, accessKeyId, secretAccessKey, prefix
+
       s3 = new AWS.S3
         accessKeyId: accessKeyId
         secretAccessKey: secretAccessKey
