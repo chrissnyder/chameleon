@@ -20,4 +20,5 @@ module.exports =
     'ooba84@gmail.com'
     'suncoup@gmail.com'
     'kmichael.aye@gmail.com'
+    'jo.irisson@gmail.com'
   ]
