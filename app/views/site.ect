@@ -47,6 +47,8 @@
 					<li><a href="/project/<%- @project %>/language/<%- languageLocale %>/resolve">Resolve</a> changes</li>
 					<li><a class="push" data-language="<%- languageLocale %>" href="#">Push</a> updates</li>
 				<% end %>
+
+				<li><a href="<%- @projectObj.bucket_url %>?lang=./translations/<%- languageLocale %>.json" target="_blank">View</a> on site</li>
 			</ul>
 		</div>
 	<% end %>
