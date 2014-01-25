@@ -45,9 +45,6 @@
 
 				<% if @user.isTrusted(): %>
 					<li><a href="/project/<%- @project %>/language/<%- languageLocale %>/resolve">Resolve</a> changes</li>
-				<% end %>
-
-				<% if @user.isAdmin(): %>
 					<li><a class="push" data-language="<%- languageLocale %>" href="#">Push</a> updates</li>
 				<% end %>
 			</ul>

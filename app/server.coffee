@@ -98,7 +98,7 @@ Db.connect MONGO_URL, (err, db) ->
   app.post '/project/:project/language/:language/translate', authStack, Languages.post
   app.get '/project/:project/language/:language/resolve', trustedStack, Languages.getResolve
   app.post '/project/:project/language/:language/resolve', trustedStack, Languages.postResolve
-  app.put '/project/:project/language/:language/push', adminStack, Languages.pushLanguage
+  app.put '/project/:project/language/:language/push', trustedStack, Languages.pushLanguage
 
   app.listen port, ->
     console.log "z8e ready to serve requests on port #{ port }"
