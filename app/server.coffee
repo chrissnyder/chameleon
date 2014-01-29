@@ -87,7 +87,7 @@ Db.connect MONGO_URL, (err, db) ->
       res.redirect '/'
   )
 
-  app.get '/', authStack, Application.get
+  app.get '/', Application.get
   app.get '/login', Application.login
 
   app.get '/project/:project', authStack, Projects.get
