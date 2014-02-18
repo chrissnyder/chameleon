@@ -1,28 +1,11 @@
 <% extend 'layout.ect' %>
 	<% block 'body': %>
     <h1><center>z8e</center></h1>
-    <p>We are making a number of upgrades to the system. Hold tight! We don't anticipate this taking any longer than a day or two.</p>
-    <hr>
-    <p>Any questions, please email Chris at cs@zooniverse.org</p>
 
+    <p>We have launched a fancy new and upgraded translations system available over at <a href="http://translations.zooniverse.org/">translations.zooniverse.org/</a></p>
 
-    <!--
-    <% if @user: %>
-      <h1><a href="/">z8e</a> &middot; <%- @user.displayName %> &middot; Access Level <%- @user.level %></h1>
-    <% end %>
-    <% if !@user: %>
-      <h1><a href="/">z8e</a> &middot; Translating the Zooniverse</h1>
-    <% end %>
+    <p>If you have previously used z8e, and would like access to the new system, email Chris (cs@zooniverse.org) or Rob (rob@zooniverse.org).</p>
 
-    <ul id="project-list">
-      <% for projectName, projectDetails of @ProjectsList: %>
-    		<a href="/project/<%- projectName %>">
-        <li class="project-item">
-          <span class="project-title"><%- projectDetails.name %></span>
-        </li>
-        </a>
-      <% end %>
-    </ul>
-    -->
+    <p>As always, thank you for your hard work.</p>
 	<% end %>
 <% end %>
